@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 
 import Hamburger from 'react-hamburgers';
@@ -11,49 +11,40 @@ import {
     setEnableMobileMenuSmall,
 } from '../../../reducers/ThemeOptions';
 
-class HeaderLogo extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            active: false,
-            mobile: false,
-            activeSecondaryMenuMobile: false
-        };
+function HeaderLogo (props) {
 
-    }
+    const [active, setActive] = useState(false);
+    const [mobile, setMobile] = useState(false);
+    const [activeSecondaryMenuMobile, setActiveSecondaryMenuMobile] = useState(false);
 
-    toggleEnableClosedSidebar = () => {
-        let {enableClosedSidebar, setEnableClosedSidebar} = this.props;
+    const toggleEnableClosedSidebar = () => {
+        let {enableClosedSidebar, setEnableClosedSidebar} = props;
         setEnableClosedSidebar(!enableClosedSidebar);
     }
 
-    state = {
-        openLeft: false,
-        openRight: false,
-        relativeWidth: false,
-        width: 280,
-        noTouchOpen: false,
-        noTouchClose: false,
-    };
+    // state = {
+    //     openLeft: false,
+    //     openRight: false,
+    //     relativeWidth: false,
+    //     width: 280,
+    //     noTouchOpen: false,
+    //     noTouchClose: false,
+    // };
 
-    render() {
         let {
             enableClosedSidebar,
-        } = this.props;
-
-        const {
-        } = this.state;
+        } = props;
 
         return (
             <Fragment>
                 <div className="app-header__logo">
                     <div className="logo-src"/>
                     <div className="header__pane ml-auto">
-                        <div onClick={this.toggleEnableClosedSidebar}>
+                        <div onClick={() => toggleEnableClosedSidebar()}>
                             <Hamburger
                                 active={enableClosedSidebar}
                                 type="elastic"
-                                onClick={() => this.setState({active: !this.state.active})}
+                                onClick={() => setActive(!active)}
                             />
                         </div>
                     </div>
@@ -61,7 +52,6 @@ class HeaderLogo extends React.Component {
                 <AppMobileMenu/>
             </Fragment>
         )
-    }
 }
 
 

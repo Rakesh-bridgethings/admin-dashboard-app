@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-constructor */
-import React, { Component, Fragment } from 'react';
+import React, { useRef, Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -14,90 +14,83 @@ import {
 import SimpleReactValidator from 'simple-react-validator';
 import { Redirect } from 'react-router-dom';
 
-class ForgotPassword extends Component {
-    constructor(props) {
-        super(props);
-        this.validator = new SimpleReactValidator({
-            element: (message, className) => <div className='required_message'>{message}</div>
-        }, { autoForceUpdate: this })
-    }
-    state = {
-        email: '',
-        reset_msg: '',
-        redirect_login: false,
-    }
+function ForgotPassword(props) {
 
-    componentWillReceiveProps = (props) => { }
+    const simpleValidator = useRef(new SimpleReactValidator({
+        element: (message, className) => <div className='required_message'>{message}</div>
+    }, { autoForceUpdate: this }))
+    const [, forceUpdate] = useState();
 
-    componentDidMount = async () => { }
+    const [email, setEmail] = useState('');
+    const [reset_msg, setReset_msg] = useState('');
+    const [redirect_login, setRedirect_login] = useState(false);
 
-    onsubmit = async () => {        
-        if (this.validator.allValid()) {
-            const { fetchResetDetails } = this.props;
-            await fetchResetDetails(this.state.email);
-            let { SideNavItem } = this.props.data;
-            this.setState({ reset_msg: SideNavItem.reset_send_data });            
+    const onsubmit = async () => {
+        const formValid = simpleValidator.current.allValid();
+        if (formValid) {
+            const { fetchResetDetails } = props;
+            await fetchResetDetails(email);
+            let { SideNavItem } = props.data;
+            setReset_msg(SideNavItem.reset_send_data);
         } else {
-            this.validator.showMessages();
-            this.forceUpdate();
+            simpleValidator.current.showMessages();
+            forceUpdate();
         }
     }
 
-    render() {
-        const { Status, SideNavItem } = this.props.data;
-        return (
-            <Fragment>
-                 {this.state.redirect_login && <Redirect to='/login' />}
-                {/* <ReactCSSTransitionGroup
+    const { Status, SideNavItem } = props.data;
+    return (
+        <Fragment>
+            {redirect_login && <Redirect to='/login' />}
+            {/* <ReactCSSTransitionGroup
                     component="div"
                     transitionName="TabsAnimation"
                     transitionAppear={true}
                     transitionAppearTimeout={0}
                     transitionEnter={false}
-                    transitionLeave={false}>                        */}
-                    <div className="login_bg_main">
-                    {this.state.reset_msg !== '' && <Notification msg={SideNavItem.reset_send_data} status='success' />}
-                        <Card id="bt_login_page">
-                            <CardHeader>
-                                <img src={BG_Logo} alt='logo' width='45%' />
-                            </CardHeader>
-                            <CardBody>
-                                <Form>
-                                    <Row>
-                                        <Col md={12}>
-                                            <FormGroup>
-                                                <Label for="email">Email</Label>
-                                                <Input type='text' id="email" placeholder="Enter Email"
-                                                    value={this.state.email}
-                                                    onChange={(e) => this.setState({ email: e.target.value })}
-                                                    onBlurCapture={(e) => this.validator.showMessageFor('Email')}
-                                                />
-                                                {this.validator.message('Email', this.state.email, 'required|email')}
-                                            </FormGroup>
-                                        </Col>
-                                    </Row>                                   
-                                    <Row>
-                                        <Col md={12}>
-                                            <FormGroup>
-                                                <Button className='btn-success btn' style={{ width: '100%' }} onClick={() => this.onsubmit()}>Submit</Button>
-                                            </FormGroup>
-                                        </Col>
-                                    </Row> 
-                                    <Row>
-                                        <Col md={12} className="back_forgot">
-                                            <FormGroup>
-                                                <p onClick={()=>this.setState({redirect_login: true})}><i class="fa fa-arrow-left"></i> Back</p>
-                                            </FormGroup>
-                                        </Col>
-                                    </Row>                                                                      
-                                </Form>
-                            </CardBody>
-                        </Card>
-                    </div>
-                {/* </ReactCSSTransitionGroup> */}
-            </Fragment>
-        );
-    }
+                    transitionLeave={false}>*/}
+            <div className="login_bg_main">
+                {reset_msg !== '' && <Notification msg={SideNavItem.reset_send_data} status='success' />}
+                <Card id="bt_login_page">
+                    <CardHeader>
+                        <img src={BG_Logo} alt='logo' width='45%' />
+                    </CardHeader>
+                    <CardBody>
+                        <Form>
+                            <Row>
+                                <Col md={12}>
+                                    <FormGroup>
+                                        <Label for="email">Email</Label>
+                                        <Input type='text' id="email" placeholder="Enter Email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            onBlurCapture={(e) => simpleValidator.current.showMessageFor('Email')}
+                                        />
+                                        {simpleValidator.current.message('Email', email, 'required|email')}
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={12}>
+                                    <FormGroup>
+                                        <Button className='btn-success btn' style={{ width: '100%' }} onClick={() => onsubmit()}>Submit</Button>
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={12} className="back_forgot">
+                                    <FormGroup>
+                                        <p onClick={() => setRedirect_login(true)}><i class="fa fa-arrow-left"></i> Back</p>
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+                        </Form>
+                    </CardBody>
+                </Card>
+            </div>
+            {/* </ReactCSSTransitionGroup> */}
+        </Fragment>
+    );
 }
 const mapStateToProps = state => ({
     data: state,

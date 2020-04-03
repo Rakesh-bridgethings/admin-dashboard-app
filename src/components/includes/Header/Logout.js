@@ -11,50 +11,41 @@ import {
 import SimpleReactValidator from 'simple-react-validator';
 import Notification from '../../../library/notification';
 import { Route, Link, Switch, HashRouter, BrowserRouter as Router, Redirect } from 'react-router-dom';
-import Login from '../../login';
 
-class Logout extends Component {
-    constructor(props) {
-        super(props);
-        this.toggle = this.toggle.bind(this);
-    }
-    state = {
+function Logout(props) {
 
+    const toggle = () => {
+        props.isCancleLogoutmodal();
     }
 
-    toggle = () => {
-        this.props.isCancleLogoutmodal();
-    }
-    onLogout = async () => {
-        let { logout } = this.props;
+    const onLogout = async() => {
+        let { logout } = props;
         await logout();
-        this.props.islogoutmodal();
+        props.islogoutmodal();
     }
 
-    onCancle = () => {
-        this.props.isCancleLogoutmodal();
+    const onCancle = () => {
+        props.isCancleLogoutmodal();
     }
 
-    render() {
-        const { Status } = this.props.data;
-        return (
-            <Fragment>
-                {Status.status !== '' && Status.status === 'success' && Status.page === 'logout' && this.props.notitype === 'logout' &&
-                    <Redirect to={{ pathname: "login" }} />
-                }               
-                <Modal isOpen={this.props.logoutmodal} toggle={() => this.toggle()} className={this.props.className} id='add_location'>
-                    <ModalHeader toggle={() => this.toggle()}>Logout</ModalHeader>
-                    <ModalBody>
-                        <p>Are you sure want to logout?</p>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button color="light" onClick={() => this.onCancle()}>Cancel</Button>
-                        <Button color="danger" onClick={() => this.onLogout()}>Log Out</Button>{' '}
-                    </ModalFooter>
-                </Modal>
-            </Fragment>
-        );
-    }
+    const { Status } = props.data;
+    return (
+        <Fragment>
+            {Status.status !== '' && Status.status === 'success' && Status.page === 'logout' && props.notitype === 'logout' &&
+                <Redirect to={{ pathname: "login" }} />
+            }
+            <Modal isOpen={props.logoutmodal} toggle={() => toggle()} className={props.className} id='add_location'>
+                <ModalHeader toggle={()=> toggle()}>Logout</ModalHeader>
+                <ModalBody>
+                    <p>Are you sure want to logout?</p>
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="light" onClick={() => onCancle()}>Cancel</Button>
+                    <Button color="danger" onClick={() => onLogout()}>Log Out</Button>{' '}
+                </ModalFooter>
+            </Modal>
+        </Fragment>
+    );
 }
 
 

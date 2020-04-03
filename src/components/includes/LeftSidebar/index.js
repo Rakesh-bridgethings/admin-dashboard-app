@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { useEffect, Fragment, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -11,109 +11,105 @@ import HeaderLogo from '../Header/AppLogo';
 import Logout from '../Header/Logout';
 import Dashboard from '../../dashboards/index'
 
-class LeftSidebar extends Component {
-    state = {
-        content: [],
-        dashboardSubmenuHide: false,
-        currentPage: 'basic',
-    };
+function LeftSidebar(props) {
 
-    componentDidMount = async () => {
-    }
-    toggleMobileSidebar = () => {
-        let { enableMobileMenu, setEnableMobileMenu } = this.props;
+    const [content, setContent] = useState([]);
+    const [dashboardSubmenuHide, setDashboardSubmenuHide] = useState(false);
+    const [logoutmodal, setLogoutmodal] = useState(false);
+    const [currentPage, setCurrentPage] = useState('basic');
+
+    const toggleMobileSidebar = () => {
+        let { enableMobileMenu, setEnableMobileMenu } = props;
         setEnableMobileMenu(!enableMobileMenu);
     }
-    islogoutmodal = () => {
-        this.setState({ logoutmodal: !this.state.logoutmodal });
-        // this.setState({ notitype: 'logout' })
-    }
-    isCancleLogoutmodal = () => {
-        this.setState({ logoutmodal: !this.state.logoutmodal });
+    const islogoutmodal = () => {
+        setLogoutmodal(!logoutmodal);
+        // setState({ notitype: 'logout' })
     }
 
-    render() {
-        let {
-            backgroundColor,
-            enableBackgroundImage,
-            enableSidebarShadow,
-            backgroundImage,
-            backgroundImageOpacity,
-        } = this.props;
-        const { Status, SideNavItem } = this.props.data;
-        const sidebarMenu = [
-            {
-                icon: 'pe-7s-rocket',
-                label: 'Dashboard',
-                to: '#dashboard',
-            },
-            {
-                icon: 'fa fa-sign-out',
-                label: 'Logout',
-                // to: '#dashboard',
-            },
-        ];
-        const sidebar = [
-            {
-                icon: 'pe-7s-rocket',
-                label: 'Basic Dashboard',
-                to: 'basic',
-            },
-            {
-                icon: 'pe-7s-rocket',
-                label: 'Performance Dashboard',
-                to: 'performance',
-            },
+    const isCancleLogoutmodal = () => {
+        setLogoutmodal(!logoutmodal);
+    }
 
-        ]
-        return (
-            <Fragment>
-                <div className="sidebar-mobile-overlay" onClick={this.toggleMobileSidebar} />
-                <ReactCSSTransitionGroup
-                    component="div"
-                    className={cx("app-sidebar", backgroundColor, { 'sidebar-shadow': enableSidebarShadow })}
-                    transitionName="SidebarAnimation"
-                    transitionAppear={true}
-                    transitionAppearTimeout={1500}
-                    transitionEnter={false}
-                    transitionLeave={false}>
-                    <HeaderLogo />
-                    <PerfectScrollbar>
-                        <div className="app-sidebar__inner">
-                            {/* {//item.menuItems.length > 0 &&
+    let {
+        backgroundColor,
+        enableBackgroundImage,
+        enableSidebarShadow,
+        backgroundImage,
+        backgroundImageOpacity,
+    } = props;
+    const { Status, SideNavItem } = props.data;
+    const sidebarMenu = [
+        {
+            icon: 'pe-7s-rocket',
+            label: 'Dashboard',
+            to: '#dashboard',
+        },
+        {
+            icon: 'fa fa-sign-out',
+            label: 'Logout',
+            // to: '#dashboard',
+        },
+    ];
+    const sidebar = [
+        {
+            icon: 'pe-7s-rocket',
+            label: 'Basic Dashboard',
+            to: 'basic',
+        },
+        {
+            icon: 'pe-7s-rocket',
+            label: 'Performance Dashboard',
+            to: 'performance',
+        },
+
+    ]
+    return (
+        <Fragment>
+            <div className="sidebar-mobile-overlay" onClick={toggleMobileSidebar} />
+            <ReactCSSTransitionGroup
+                component="div"
+                className={cx("app-sidebar", backgroundColor, { 'sidebar-shadow': enableSidebarShadow })}
+                transitionName="SidebarAnimation"
+                transitionAppear={true}
+                transitionAppearTimeout={1500}
+                transitionEnter={false}
+                transitionLeave={false}>
+                <HeaderLogo />
+                <PerfectScrollbar>
+                    <div className="app-sidebar__inner">
+                        {/* {//item.menuItems.length > 0 &&
                                     <h5 className="app-sidebar__heading">{item.text}</h5>
                                 } */}
-                            {/* <MetisMenu content={sidebarMenu} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down" /> */}
-                            <ul className="vertical-nav-menu" id="sidebar_menu">
-                                <li onClick={() => this.setState({ dashboardSubmenuHide: !this.state.dashboardSubmenuHide })}><i className="pe-7s-rocket"></i><span>Dashboard</span><i className={this.state.dashboardSubmenuHide ? 'pe-7s-angle-down' : 'pe-7s-angle-up'} id="main_menu_sidebar"></i></li>
-                                {this.state.dashboardSubmenuHide &&
-                                        <ul className="sidebar_submenu">
-                                            {sidebar && sidebar.map((item, index) => {
-                                                return (
-                                                    <li key={index} onClick={() => this.props.currentPage(item.to)}><span>{item.label}</span></li>
-                                                )
-                                            })}
-                                        </ul>
-                                }
-                                <li onClick={() => this.setState({ logoutmodal: !this.state.logoutmodal })}><i className="fa fa-sign-out"></i><span>Logout</span></li>
-                            </ul>
-                            <Logout shownoti={this.shownoti} notitype={this.state.notitype} logoutmodal={this.state.logoutmodal} islogoutmodal={this.islogoutmodal} isCancleLogoutmodal={this.isCancleLogoutmodal} />
-                        </div>
-                    </PerfectScrollbar>
-                    <div
-                        className={cx("app-sidebar-bg", backgroundImageOpacity)}
-                        style={{
-                            backgroundImage: enableBackgroundImage ? 'url(' + backgroundImage + ')' : null
-                        }}>
+                        {/* <MetisMenu content={sidebarMenu} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down" /> */}
+                        <ul className="vertical-nav-menu" id="sidebar_menu">
+                            <li onClick={() => setDashboardSubmenuHide(!dashboardSubmenuHide)}><i className="pe-7s-rocket"></i><span>Dashboard</span><i className={dashboardSubmenuHide ? 'pe-7s-angle-down' : 'pe-7s-angle-up'} id="main_menu_sidebar"></i></li>
+                            {dashboardSubmenuHide &&
+                                <ul className="sidebar_submenu">
+                                    {sidebar && sidebar.map((item, index) => {
+                                        return (
+                                            <li key={index} onClick={() => props.currentPage(item.to)}><span>{item.label}</span></li>
+                                        )
+                                    })}
+                                </ul>
+                            }
+                            <li onClick={() => setLogoutmodal(!logoutmodal)}><i className="fa fa-sign-out"></i><span>Logout</span></li>
+                        </ul>
+                        <Logout logoutmodal={logoutmodal} islogoutmodal={() => islogoutmodal()} isCancleLogoutmodal={() => isCancleLogoutmodal()} />
                     </div>
-                </ReactCSSTransitionGroup>
-            </Fragment>
+                </PerfectScrollbar>
+                <div
+                    className={cx("app-sidebar-bg", backgroundImageOpacity)}
+                    style={{
+                        backgroundImage: enableBackgroundImage ? 'url(' + backgroundImage + ')' : null
+                    }}>
+                </div>
+            </ReactCSSTransitionGroup>
+        </Fragment>
+    );
 
-        );
-    }
-
-    isPathActive(path) {
-        return this.props.location.pathname.startsWith(path);
+    const isPathActive = (path) => {
+        return props.location.pathname.startsWith(path);
     }
 }
 
