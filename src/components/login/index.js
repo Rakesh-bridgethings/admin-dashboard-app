@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-constructor */
 import React, { useRef, Fragment, useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { fetchLoginDetails } from '../../services/SideNavItem';

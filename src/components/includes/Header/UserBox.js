@@ -8,7 +8,7 @@ import {
 } from 'reactstrap';
 import avatar1 from '../../../assets/utils/images/avatars/1.jpg';
 import { fetchtopUseritemdata } from '../../../services/SideNavItem';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 

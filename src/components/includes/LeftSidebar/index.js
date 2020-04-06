@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import MetisMenu from 'react-metismenu';
 import cx from 'classnames';

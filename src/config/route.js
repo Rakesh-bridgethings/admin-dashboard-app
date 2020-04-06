@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, Fragment, useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import cx from 'classnames';
 import { bindActionCreators } from 'redux';
 import ResizeDetector from 'react-resize-detector';

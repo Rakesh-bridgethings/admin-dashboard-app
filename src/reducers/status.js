@@ -11,7 +11,7 @@ const initialState = {
   page: '',
 };
 
-const status = (state = initialState, action) => {
+function status (state = initialState, action) {
   switch (action.type) {
     case STATUS_REPLACE: {
       return {

@@ -39,6 +39,7 @@
     "reactstrap": "^8.4.0",
     "recharts": "^2.0.0-beta.1",
     "redux": "^4.0.5",
+    "redux-hook-middleware": "^0.1.22",
     "redux-thunk": "^2.3.0",
     "semantic-ui-react": "^0.88.2",
     "simple-react-validator": "^1.4.4",

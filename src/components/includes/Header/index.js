@@ -6,14 +6,16 @@ import HeaderLogo from './AppLogo';
 import SearchBox from './SearchBox';
 import UserBox from './UserBox';
 
-function Header(props) {
-
+function Header() {
+    const headerData = useSelector(state => state);
+    const dispatch = useDispatch();
+    
     // const [dropdownOpen, setDropdownOpen] = useState(false);
     let {
         headerBackgroundColor,
         enableMobileMenuSmall,
         enableHeaderShadow
-    } = props;
+    } = headerData.ThemeOptions;
     // let{SideNavItem} = this.props.data;
     return (
         <Fragment>

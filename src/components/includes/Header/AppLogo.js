@@ -1,5 +1,5 @@
-import React, {Fragment, useState, useEffect} from 'react';
-import {connect} from 'react-redux';
+import React, { Fragment, useState, useEffect } from 'react';
+import { connect, useDispatch, useSelector } from 'react-redux';
 
 import Hamburger from 'react-hamburgers';
 
@@ -11,14 +11,17 @@ import {
     setEnableMobileMenuSmall,
 } from '../../../reducers/ThemeOptions';
 
-function HeaderLogo (props) {
+function HeaderLogo(props) {
+    const propsData = useSelector(state => state);
+    const dispatch = useDispatch();
+    // console.log("propsData::", propsData);
 
     const [active, setActive] = useState(false);
     const [mobile, setMobile] = useState(false);
     const [activeSecondaryMenuMobile, setActiveSecondaryMenuMobile] = useState(false);
 
     const toggleEnableClosedSidebar = () => {
-        let {enableClosedSidebar, setEnableClosedSidebar} = props;
+        let { enableClosedSidebar, setEnableClosedSidebar } = props;
         setEnableClosedSidebar(!enableClosedSidebar);
     }
 
@@ -31,27 +34,27 @@ function HeaderLogo (props) {
     //     noTouchClose: false,
     // };
 
-        let {
-            enableClosedSidebar,
-        } = props;
+    let {
+        enableClosedSidebar,
+    } = propsData.ThemeOptions;
 
-        return (
-            <Fragment>
-                <div className="app-header__logo">
-                    <div className="logo-src"/>
-                    <div className="header__pane ml-auto">
-                        <div onClick={() => toggleEnableClosedSidebar()}>
-                            <Hamburger
-                                active={enableClosedSidebar}
-                                type="elastic"
-                                onClick={() => setActive(!active)}
-                            />
-                        </div>
+    return (
+        <Fragment>
+            <div className="app-header__logo">
+                <div className="logo-src" />
+                <div className="header__pane ml-auto">
+                    <div onClick={() => toggleEnableClosedSidebar()}>
+                        <Hamburger
+                            active={enableClosedSidebar}
+                            type="elastic"
+                            onClick={() => setActive(!active)}
+                        />
                     </div>
                 </div>
-                <AppMobileMenu/>
-            </Fragment>
-        )
+            </div>
+            <AppMobileMenu />
+        </Fragment>
+    )
 }
 
 

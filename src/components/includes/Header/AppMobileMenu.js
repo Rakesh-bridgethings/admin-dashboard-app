@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import Hamburger from 'react-hamburgers';
 import cx from 'classnames';
 import {
@@ -15,6 +15,9 @@ import {
 } from '../../../reducers/ThemeOptions';
 
 function AppMobileMenu(props) {
+    
+    const propsData = useSelector(state => state);
+    const dispatch = useDispatch();
 
     const [activeMobile, setActiveMobile] = useState(false);
     const [mobile, setMobile] = useState(false);

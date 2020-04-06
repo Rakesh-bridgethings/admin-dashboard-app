@@ -1,10 +1,13 @@
 import React, { useRef, Fragment, useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import cx from 'classnames';
 import { toast, Slide } from 'react-toastify';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, Nav, NavItem, NavLink, Button, UncontrolledTooltip } from 'reactstrap';
 
-function PageTitle(props) {
+function PageTitle() {
+    const propsData = useSelector(state => state);
+    const dispatch = useDispatch();
+    console.log("propsData::", propsData);
 
     // const toggle = (name) => {
     //     // setState({
@@ -29,7 +32,7 @@ function PageTitle(props) {
         heading,
         icon,
         subheading
-    } = props;
+    } = propsData.ThemeOptions;
 
     return (
         <div className="app-page-title">

@@ -5,19 +5,16 @@ import './assets/style.css';
 import Route from './config/route';
 import store from './store';
 import { Provider } from 'react-redux';
+import rootReducers from './reducers';
+// import { applyMiddleware, createStore } from 'redux';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
+function App () {
+    // const configureStore = createStore(rootReducers);
     return (
         <Provider store={store}>
         <Route />
         </Provider>
     );
-  }
 }
 
 export default App;

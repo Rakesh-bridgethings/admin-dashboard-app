@@ -1,7 +1,6 @@
 import React, { useEffect, Fragment, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import classnames from 'classnames';
-
 import {
     Row, Col,
     Button,
@@ -12,9 +11,7 @@ import {
     TabContent,
     TabPane,
 } from 'reactstrap';
-
 import PageTitle from '../includes/PageTitle';
-
 import {
     AreaChart, Area, Line,
     ResponsiveContainer,
@@ -25,7 +22,6 @@ import {
     Tooltip,
     LineChart
 } from 'recharts';
-
 import {
     faAngleUp,
     faArrowRight,
@@ -33,14 +29,11 @@ import {
     faArrowLeft,
     faAngleDown
 } from '@fortawesome/free-solid-svg-icons';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import avatar1 from '../../assets/utils/images/avatars/1.jpg';
 import avatar2 from '../../assets/utils/images/avatars/2.jpg';
 import avatar3 from '../../assets/utils/images/avatars/3.jpg';
 import avatar4 from '../../assets/utils/images/avatars/4.jpg';
-
 
 const data = [
     { name: 'Page A', uv: 4000, pv: 2400, amt: 2400 },
