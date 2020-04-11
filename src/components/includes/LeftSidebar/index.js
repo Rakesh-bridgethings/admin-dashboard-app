@@ -7,6 +7,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import HeaderLogo from '../Header/AppLogo';
 import Logout from '../Header/Logout';
 import Dashboard from '../../dashboards/index'
+import ThemeOptionSerivce from '../../../services/ThemeOption'
 
 function LeftSidebar(props) {
 
@@ -14,6 +15,11 @@ function LeftSidebar(props) {
     const [dashboardSubmenuHide, setDashboardSubmenuHide] = useState(false);
     const [logoutmodal, setLogoutmodal] = useState(false);
     const [currentPage, setCurrentPage] = useState('basic');
+    const [themeoption, setthemeoption] = useState({});
+
+    useEffect(() => {
+        setthemeoption(ThemeOptionSerivce);
+    }, []);
 
     const toggleMobileSidebar = () => {
         let { enableMobileMenu, setEnableMobileMenu } = props;
@@ -28,13 +34,7 @@ function LeftSidebar(props) {
         setLogoutmodal(!logoutmodal);
     }
 
-    let {
-        backgroundColor,
-        enableBackgroundImage,
-        enableSidebarShadow,
-        backgroundImage,
-        backgroundImageOpacity,
-    } = props;
+
     const sidebarMenu = [
         {
             icon: 'pe-7s-rocket',
@@ -65,7 +65,7 @@ function LeftSidebar(props) {
             <div className="sidebar-mobile-overlay" onClick={toggleMobileSidebar} />
             <ReactCSSTransitionGroup
                 component="div"
-                className={cx("app-sidebar", backgroundColor, { 'sidebar-shadow': enableSidebarShadow })}
+                className={cx("app-sidebar", themeoption.backgroundColor, { 'sidebar-shadow': themeoption.enableSidebarShadow })}
                 transitionName="SidebarAnimation"
                 transitionAppear={true}
                 transitionAppearTimeout={1500}
@@ -95,9 +95,9 @@ function LeftSidebar(props) {
                     </div>
                 </PerfectScrollbar>
                 <div
-                    className={cx("app-sidebar-bg", backgroundImageOpacity)}
+                    className={cx("app-sidebar-bg", themeoption.backgroundImageOpacity)}
                     style={{
-                        backgroundImage: enableBackgroundImage ? 'url(' + backgroundImage + ')' : null
+                        backgroundImage: themeoption.enableBackgroundImage ? 'url(' + themeoption.backgroundImage + ')' : null
                     }}>
                 </div>
             </ReactCSSTransitionGroup>
@@ -110,15 +110,4 @@ function LeftSidebar(props) {
 }
 
 // export default withRouter(Nav);
-
-const mapStateToProps = state => ({
-    enableBackgroundImage: state.ThemeOptions.enableBackgroundImage,
-    enableSidebarShadow: state.ThemeOptions.enableSidebarShadow,
-    enableMobileMenu: state.ThemeOptions.enableMobileMenu,
-    backgroundColor: state.ThemeOptions.backgroundColor,
-    backgroundImage: state.ThemeOptions.backgroundImage,
-    backgroundImageOpacity: state.ThemeOptions.backgroundImageOpacity,
-    data: state,
-})
-
 export default LeftSidebar;

@@ -27,16 +27,15 @@ function ForgotPassword(props) {
         const formValid = simpleValidator.current.allValid();
         if (formValid) {
             sideNavSerivce.fetchResetDetails(email).then(res => {
-                res.data && console.log("res.data2::", res.data); //setLogin_status(SideNavItem.status);
+                setReset_msg(res);
               });
-            // setReset_msg(SideNavItem.reset_send_data);
+            
         } else {
             simpleValidator.current.showMessages();
             forceUpdate();
         }
     }
 
-    const { Status, SideNavItem } = props.data;
     return (
         <Fragment>
             {redirect_login && <Redirect to='/login' />}
@@ -48,7 +47,7 @@ function ForgotPassword(props) {
                     transitionEnter={false}
                     transitionLeave={false}>*/}
             <div className="login_bg_main">
-                {reset_msg !== '' && <Notification msg={SideNavItem.reset_send_data} status='success' />}
+                {reset_msg !== '' && <Notification msg={reset_msg} status='success' />}
                 <Card id="bt_login_page">
                     <CardHeader>
                         <img src={BG_Logo} alt='logo' width='45%' />

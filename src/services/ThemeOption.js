@@ -1,8 +1,8 @@
 import sideBar6 from '../assets/utils/images/sidebar/city1.jpg';
 
-class ThemeOptionSerivce {
-    static themeOption() {
-        const option = {
+// class ThemeOptionSerivce {
+//     static themeOption() {
+        const ThemeOptionSerivce = {
             backgroundColor: 'bg-royal sidebar-text-light',
             headerBackgroundColor: 'bg-strong-bliss header-text-light',
             enableMobileMenuSmall: '',
@@ -20,8 +20,8 @@ class ThemeOptionSerivce {
             enablePageTitleSubheading: true,
             enablePageTabsAlt: false,
         }
-        return option;
-    }
-}
+//         return option;
+//     }
+// }
 
 export default ThemeOptionSerivce;

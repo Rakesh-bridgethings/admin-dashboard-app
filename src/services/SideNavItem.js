@@ -6,11 +6,9 @@ class sideNavSerivce {
       return axios
          .get(`${SERVER_URL}user_info`, { headers: HEADER })
          .then(res => {
-            console.log("res.data::::", res.data);
-            if (res.data) {
-               localStorage.setItem('BTDashoarduser_email', res.data.email);
-               return res.data;
-            }
+            // console.log("res.data::::", res.data);
+            localStorage.setItem('BTDashoarduser_email', res.data.email);
+            return res.data;
          })
          .catch(err => {
             return err;
@@ -31,7 +29,12 @@ class sideNavSerivce {
                if (res.status === 200 && res.data === '') {
                   status = 'error';
                }
-               return (status, res.data, 'logout');
+               const alldata = {
+                  status: status,
+                  data: res.data,
+                  page: 'logout'
+               }
+               return alldata;
             }
          })
          .catch(err => {
@@ -53,8 +56,11 @@ class sideNavSerivce {
             if (status === 'success') {
                localStorage.setItem('BTDashoardauthToken', res.data.token);
             }
-            console.log("status::", status, "res::", res.data);
-            return (status, res.data);
+            const alldata = {
+               status: status,
+               data: res.data
+            }
+            return alldata;
          })
          .catch(err => {
             return err;
@@ -64,7 +70,7 @@ class sideNavSerivce {
    static fetchResetDetails(email) {
       return axios
          .post(`${SERVER_URL}send_password_link?email=${email}`, { headers: HEADER })
-         .then(res => {           
+         .then(res => {
             return res.data;
          })
          .catch(err => {

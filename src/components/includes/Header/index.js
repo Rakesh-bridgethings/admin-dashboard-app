@@ -15,12 +15,7 @@ function Header(props) {
     // } = props.data && props.data.headerData.ThemeOptions;
 
     useEffect(() => {
-        async function fetchData() {
-            ThemeOptionSerivce.themeOption().then(res => {
-                res.data && setthemeoption(res.data);
-            });
-        }
-        fetchData();
+        setthemeoption(ThemeOptionSerivce);
     }, []);
 
     return (

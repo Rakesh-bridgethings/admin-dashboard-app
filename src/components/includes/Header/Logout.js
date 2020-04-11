@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, useState } from 'react';
 import sideNavSerivce from '../../../services/SideNavItem';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import {
@@ -12,13 +12,15 @@ import { Route, Link, Switch, HashRouter, BrowserRouter as Router, Redirect } fr
 
 function Logout(props) {
 
+    const [login_status, setlogin_status] = useState({});
+
     const toggle = () => {
         props.isCancleLogoutmodal();
     }
 
     const onLogout = async () => {
         sideNavSerivce.logout().then(res => {
-            res.data && console.log("res.data4::", res.data); //setLogin_status(SideNavItem.status);
+            setlogin_status(res);
         });
         props.islogoutmodal();
     }
@@ -29,9 +31,9 @@ function Logout(props) {
 
     return (
         <Fragment>
-            {/* {Status.status !== '' && Status.status === 'success' && Status.page === 'logout' && props.notitype === 'logout' &&
+            {login_status.status !== '' && login_status.status === 'success' && login_status.page === 'logout' &&
                 <Redirect to={{ pathname: "login" }} />
-            } */}
+            }
             <Modal isOpen={props.logoutmodal} toggle={() => toggle()} className={props.className} id='add_location'>
                 <ModalHeader toggle={() => toggle()}>Logout</ModalHeader>
                 <ModalBody>

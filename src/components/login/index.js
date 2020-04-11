@@ -14,8 +14,8 @@ import { Redirect } from 'react-router-dom';
 
 function Login(props) {
     const simpleValidator = useRef(new SimpleReactValidator({
-            element: (message, className) => <div className='required_message'>{message}</div>
-        }, { autoForceUpdate: this }))
+        element: (message, className) => <div className='required_message'>{message}</div>
+    }, { autoForceUpdate: this }))
     const [, forceUpdate] = useState();
 
     // validator = new SimpleReactValidator({
@@ -28,6 +28,7 @@ function Login(props) {
     const [login_status, setLogin_status] = useState('');
     const [login_message, setLogin_message] = useState('');
     const [redirect_forgot, setRedirect_forgot] = useState(false);
+    const [redirect_dashboard, setredirect_dashboard] = useState(false);
 
     const onLogin = async () => {
         setLogin_status('');
@@ -35,9 +36,12 @@ function Login(props) {
         const formValid = simpleValidator.current.allValid();
         if (formValid) {
             const logindata = { "email": email, "password": password };
-            sideNavSerivce.fetchLoginDetails(logindata).then(res => {
-                res.data && console.log("res.data1::", res.data); //setLogin_status(SideNavItem.status);
-              });            
+            sideNavSerivce.fetchLoginDetails(logindata)
+                .then(res => {
+                    setLogin_status(res.status);
+                    setLogin_message(res.data.message);
+                    res.status === 'success' && setredirect_dashboard(true);
+                });
             // SideNavItem.status === 'error' && setLogin_message(SideNavItem.res_data.response.data.message);
         } else {
             simpleValidator.current.showMessages()
@@ -49,6 +53,7 @@ function Login(props) {
     return (
         <Fragment>
             {redirect_forgot && <Redirect to='/forgot-password' />}
+            {redirect_dashboard && <Redirect to='/dashboard' />}
             {/* <ReactCSSTransitionGroup
                     component="div"
                     transitionName="TabsAnimation"

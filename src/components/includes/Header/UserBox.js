@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
     DropdownToggle, DropdownMenu,
     Nav, Button, NavItem, NavLink,
@@ -12,20 +12,17 @@ import sideNavSerivce from '../../../services/SideNavItem';
 
 function UserBox(props) {
 
+    const [userdata, setuserdata] = useState({});
+
     useEffect(() => {
         async function fetchData() {
             await sideNavSerivce.fetchtopUseritemdata().then(res => {
-                res.data && console.log("res.data3::", res.data); //setLogin_status(SideNavItem.status);
+                setuserdata(res);
             });
         }
         fetchData();
     }, []);
 
-    // const { SideNavItem } = props.data;
-    // var splitdata = SideNavItem.topuserdata.text && SideNavItem.topuserdata.text.split(" | ");
-    // var user_nm = splitdata && splitdata[0];
-    // var role = splitdata && splitdata[1];
-    // var menuItems = SideNavItem.topuserdata.menuItems && SideNavItem.topuserdata.menuItems;
     return (
         <Fragment>
             <div className="header-btn-lg pr-0">
@@ -41,10 +38,10 @@ function UserBox(props) {
                         </div>
                         <div className="widget-content-left  ml-3 header-user-info">
                             <div className="widget-heading">
-                                {"user_nm"}
+                                {userdata.firstName}
                             </div>
                             <div className="widget-subheading">
-                                {"role"}
+                                {userdata.roleName}
                             </div>
                         </div>
                     </div>

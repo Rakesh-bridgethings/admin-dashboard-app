@@ -32,12 +32,7 @@ function HeaderLogo(props) {
     // } = props.data.ThemeOptions;
 
     useEffect(() => {
-        async function fetchData() {
-            ThemeOptionSerivce.themeOption().then(res => {
-                res.data && setthemeoption(res.data);
-            });
-        }
-        fetchData();
+        setthemeoption(ThemeOptionSerivce);
     }, []);
 
     return (

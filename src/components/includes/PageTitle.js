@@ -6,6 +6,8 @@ import ThemeOptionSerivce from '../../services/ThemeOption'
 
 function PageTitle(props) {
     const [themeoption, setthemeoption] = useState({});
+
+
     // const toggle = (name) => {
     //     // setState({
     //     //     [name]: !state[name],
@@ -32,12 +34,7 @@ function PageTitle(props) {
     // } = props.data && props.data.ThemeOptions;
 
     useEffect(() => {
-        async function fetchData() {
-            ThemeOptionSerivce.themeOption().then(res => {
-                res.data && setthemeoption(res.data);
-            });
-        }
-        fetchData();
+        setthemeoption(ThemeOptionSerivce);
     }, []);
 
 
@@ -47,13 +44,13 @@ function PageTitle(props) {
                 <div className="page-title-heading">
                     <div
                         className={cx("page-title-icon", { 'd-none': !themeoption.enablePageTitleIcon })}>
-                        <i className={themeoption.icon} />
+                        <i className={props.icon} />
                     </div>
                     <div>
-                        {themeoption.heading}
+                        {props.heading}
                         <div
                             className={cx("page-title-subheading", { 'd-none': !themeoption.enablePageTitleSubheading })}>
-                            {themeoption.subheading}
+                            {props.subheading}
                         </div>
                     </div>
                 </div>
