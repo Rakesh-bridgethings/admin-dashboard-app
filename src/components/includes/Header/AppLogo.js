@@ -1,27 +1,20 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
 
 import Hamburger from 'react-hamburgers';
 
 import AppMobileMenu from './AppMobileMenu';
-
-import {
-    setEnableClosedSidebar,
-    setEnableMobileMenu,
-    setEnableMobileMenuSmall,
-} from '../../../reducers/ThemeOptions';
+import ThemeOptionSerivce from '../../../services/ThemeOption'
 
 function HeaderLogo(props) {
-    const propsData = useSelector(state => state);
-    const dispatch = useDispatch();
-    // console.log("propsData::", propsData);
 
     const [active, setActive] = useState(false);
     const [mobile, setMobile] = useState(false);
     const [activeSecondaryMenuMobile, setActiveSecondaryMenuMobile] = useState(false);
+    const [themeoption, setthemeoption] = useState({});
+    const [enableClosedSidebar, setEnableClosedSidebar] = useState(false);
 
     const toggleEnableClosedSidebar = () => {
-        let { enableClosedSidebar, setEnableClosedSidebar } = props;
+        // let { enableClosedSidebar, setEnableClosedSidebar } = props;
         setEnableClosedSidebar(!enableClosedSidebar);
     }
 
@@ -34,9 +27,18 @@ function HeaderLogo(props) {
     //     noTouchClose: false,
     // };
 
-    let {
-        enableClosedSidebar,
-    } = propsData.ThemeOptions;
+    // let {
+    //     enableClosedSidebar,
+    // } = props.data.ThemeOptions;
+
+    useEffect(() => {
+        async function fetchData() {
+            ThemeOptionSerivce.themeOption().then(res => {
+                res.data && setthemeoption(res.data);
+            });
+        }
+        fetchData();
+    }, []);
 
     return (
         <Fragment>
@@ -45,7 +47,7 @@ function HeaderLogo(props) {
                 <div className="header__pane ml-auto">
                     <div onClick={() => toggleEnableClosedSidebar()}>
                         <Hamburger
-                            active={enableClosedSidebar}
+                            active={themeoption.enableClosedSidebar}
                             type="elastic"
                             onClick={() => setActive(!active)}
                         />
@@ -56,20 +58,4 @@ function HeaderLogo(props) {
         </Fragment>
     )
 }
-
-
-const mapStateToProps = state => ({
-    enableClosedSidebar: state.ThemeOptions.enableClosedSidebar,
-    enableMobileMenu: state.ThemeOptions.enableMobileMenu,
-    enableMobileMenuSmall: state.ThemeOptions.enableMobileMenuSmall,
-});
-
-const mapDispatchToProps = dispatch => ({
-
-    setEnableClosedSidebar: enable => dispatch(setEnableClosedSidebar(enable)),
-    setEnableMobileMenu: enable => dispatch(setEnableMobileMenu(enable)),
-    setEnableMobileMenuSmall: enable => dispatch(setEnableMobileMenuSmall(enable)),
-
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderLogo);
+export default HeaderLogo;

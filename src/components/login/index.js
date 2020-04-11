@@ -1,9 +1,7 @@
 /* eslint-disable no-useless-constructor */
 import React, { useRef, Fragment, useEffect, useState } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import { fetchLoginDetails } from '../../services/SideNavItem';
+import sideNavSerivce from '../../services/SideNavItem';
 import Notification from '../../library/notification';
 import BG_Logo from '../../assets/utils/images/BT-HighRes-Logo.5eb3d28f.png';
 import {
@@ -36,22 +34,18 @@ function Login(props) {
         setLogin_message('');
         const formValid = simpleValidator.current.allValid();
         if (formValid) {
-            const { fetchLoginDetails } = props;
             const logindata = { "email": email, "password": password };
-            await fetchLoginDetails(logindata);
-            let { SideNavItem } = props.data;
-            setLogin_status(SideNavItem.status);
-            SideNavItem.status === 'error' && setLogin_message(SideNavItem.res_data.response.data.message);
-            // if(SideNavItem.status === 'error'){
-            //     setState({email: '', password: ''});
-            // }
+            sideNavSerivce.fetchLoginDetails(logindata).then(res => {
+                res.data && console.log("res.data1::", res.data); //setLogin_status(SideNavItem.status);
+              });            
+            // SideNavItem.status === 'error' && setLogin_message(SideNavItem.res_data.response.data.message);
         } else {
             simpleValidator.current.showMessages()
             forceUpdate(1)
         }
     }
 
-    const { Status, SideNavItem } = props.data;
+    // const { SideNavItem } = props.data;
     return (
         <Fragment>
             {redirect_forgot && <Redirect to='/forgot-password' />}
@@ -63,7 +57,7 @@ function Login(props) {
                     transitionEnter={false}
                     transitionLeave={false}> */}
             <div className="login_bg_main">
-                {login_status === 'error' && <Notification msg={SideNavItem.res_data.response.data.message} page="login" status={login_status} />}
+                {login_status === 'error' && <Notification msg={login_message} page="login" status={login_status} />}
                 <Card id="bt_login_page">
                     <CardHeader>
                         <img src={BG_Logo} alt='logo' width='45%' />
@@ -119,15 +113,7 @@ function Login(props) {
         </Fragment>
     );
 }
-const mapStateToProps = state => ({
-    data: state,
-})
-const mapDispatchToProps = dispatch => bindActionCreators({
-    fetchLoginDetails: fetchLoginDetails,
-}, dispatch)
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Login);
+
+export default Login;
 
 

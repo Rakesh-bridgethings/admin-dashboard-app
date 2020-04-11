@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
 import Hamburger from 'react-hamburgers';
 import cx from 'classnames';
 import {
@@ -9,15 +8,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     Button
 } from 'reactstrap';
-import {
-    setEnableMobileMenu,
-    setEnableMobileMenuSmall,
-} from '../../../reducers/ThemeOptions';
+
 
 function AppMobileMenu(props) {
-    
-    const propsData = useSelector(state => state);
-    const dispatch = useDispatch();
 
     const [activeMobile, setActiveMobile] = useState(false);
     const [mobile, setMobile] = useState(false);
@@ -70,17 +63,5 @@ function AppMobileMenu(props) {
 }
 
 
-const mapStateToProps = state => ({
-    closedSmallerSidebar: state.ThemeOptions.closedSmallerSidebar,
-    enableMobileMenu: state.ThemeOptions.enableMobileMenu,
-    enableMobileMenuSmall: state.ThemeOptions.enableMobileMenuSmall,
-});
 
-const mapDispatchToProps = dispatch => ({
-
-    setEnableMobileMenu: enable => dispatch(setEnableMobileMenu(enable)),
-    setEnableMobileMenuSmall: enable => dispatch(setEnableMobileMenuSmall(enable)),
-
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(AppMobileMenu);
+export default AppMobileMenu;

@@ -1,7 +1,5 @@
 import React, { Suspense, lazy, Fragment, useState } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
 import cx from 'classnames';
-import { bindActionCreators } from 'redux';
 import ResizeDetector from 'react-resize-detector';
 import Header from '../components/includes/Header';
 import LeftSidebar from '../components/includes/LeftSidebar';
@@ -90,23 +88,5 @@ function Main(props) {
         />
     )
 }
-const mapStateToProps = state => ({
-    colorScheme: state.ThemeOptions.colorScheme,
-    enableFixedHeader: state.ThemeOptions.enableFixedHeader,
-    enableMobileMenu: state.ThemeOptions.enableMobileMenu,
-    enableFixedFooter: state.ThemeOptions.enableFixedFooter,
-    enableFixedSidebar: state.ThemeOptions.enableFixedSidebar,
-    enableClosedSidebar: state.ThemeOptions.enableClosedSidebar,
-    enablePageTabsAlt: state.ThemeOptions.enablePageTabsAlt,
-    // match: state.match,
-    data: state,
-});
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-    // fetchSidenavItemData: fetchSidenavItemData,
-}, dispatch)
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Main);
+export default Main;

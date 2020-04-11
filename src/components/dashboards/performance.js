@@ -1,7 +1,5 @@
 /* eslint-disable no-useless-constructor */
-import React, { Component, Fragment } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, { Fragment } from 'react';
 import PageTitle from '../../components/includes/PageTitle';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import {
@@ -37,13 +35,5 @@ function Entities() {
         </Fragment>
     );
 }
-const mapStateToProps = state => ({
-    data: state,
-})
-const mapDispatchToProps = dispatch => bindActionCreators({
 
-}, dispatch)
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Entities);
+export default Entities;

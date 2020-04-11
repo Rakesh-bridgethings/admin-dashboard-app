@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../../services/SideNavItem';
-import { bindActionCreators } from 'redux';
+import sideNavSerivce from '../../../services/SideNavItem';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import {
     Row, Col, Button,
@@ -18,9 +16,10 @@ function Logout(props) {
         props.isCancleLogoutmodal();
     }
 
-    const onLogout = async() => {
-        let { logout } = props;
-        await logout();
+    const onLogout = async () => {
+        sideNavSerivce.logout().then(res => {
+            res.data && console.log("res.data4::", res.data); //setLogin_status(SideNavItem.status);
+        });
         props.islogoutmodal();
     }
 
@@ -28,14 +27,13 @@ function Logout(props) {
         props.isCancleLogoutmodal();
     }
 
-    const { Status } = props.data;
     return (
         <Fragment>
-            {Status.status !== '' && Status.status === 'success' && Status.page === 'logout' && props.notitype === 'logout' &&
+            {/* {Status.status !== '' && Status.status === 'success' && Status.page === 'logout' && props.notitype === 'logout' &&
                 <Redirect to={{ pathname: "login" }} />
-            }
+            } */}
             <Modal isOpen={props.logoutmodal} toggle={() => toggle()} className={props.className} id='add_location'>
-                <ModalHeader toggle={()=> toggle()}>Logout</ModalHeader>
+                <ModalHeader toggle={() => toggle()}>Logout</ModalHeader>
                 <ModalBody>
                     <p>Are you sure want to logout?</p>
                 </ModalBody>
@@ -48,14 +46,4 @@ function Logout(props) {
     );
 }
 
-
-const mapStateToProps = state => ({
-    data: state,
-})
-const mapDispatchToProps = dispatch => bindActionCreators({
-    logout: logout,
-}, dispatch)
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Logout);
+export default Logout;

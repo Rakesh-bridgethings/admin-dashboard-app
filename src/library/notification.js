@@ -1,6 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -40,20 +38,7 @@ class Notification extends Component {
 
 }
 
-
-
-const mapStateToProps = state => ({
-    data: state,
-})
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-
-}, dispatch)
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Notification);
+export default Notification;
 
 
 

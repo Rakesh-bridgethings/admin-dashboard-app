@@ -1,12 +1,9 @@
-import React, { useEffect, Fragment, useState } from 'react';
+import React, { useEffect, useContext, Fragment, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import MetisMenu from 'react-metismenu';
 import cx from 'classnames';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import { setEnableMobileMenu } from '../../../reducers/ThemeOptions';
 import HeaderLogo from '../Header/AppLogo';
 import Logout from '../Header/Logout';
 import Dashboard from '../../dashboards/index'
@@ -38,7 +35,6 @@ function LeftSidebar(props) {
         backgroundImage,
         backgroundImageOpacity,
     } = props;
-    const { Status, SideNavItem } = props.data;
     const sidebarMenu = [
         {
             icon: 'pe-7s-rocket',
@@ -125,13 +121,4 @@ const mapStateToProps = state => ({
     data: state,
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-    setEnableMobileMenu: enable => dispatch(setEnableMobileMenu(enable)),
-}, dispatch)
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(LeftSidebar);
-
-
+export default LeftSidebar;

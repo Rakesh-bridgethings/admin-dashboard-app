@@ -1,14 +1,11 @@
 import React, { useRef, Fragment, useState, useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
 import cx from 'classnames';
 import { toast, Slide } from 'react-toastify';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, Nav, NavItem, NavLink, Button, UncontrolledTooltip } from 'reactstrap';
+import ThemeOptionSerivce from '../../services/ThemeOption'
 
-function PageTitle() {
-    const propsData = useSelector(state => state);
-    const dispatch = useDispatch();
-    console.log("propsData::", propsData);
-
+function PageTitle(props) {
+    const [themeoption, setthemeoption] = useState({});
     // const toggle = (name) => {
     //     // setState({
     //     //     [name]: !state[name],
@@ -17,7 +14,7 @@ function PageTitle() {
     // }
 
     const notify22 = () => {
-     toast("Another toastify example!!!", {
+        toast("Another toastify example!!!", {
             transition: Slide,
             closeButton: true,
             autoClose: 5000,
@@ -26,27 +23,37 @@ function PageTitle() {
         });
     }
 
-    let {
-        enablePageTitleIcon,
-        enablePageTitleSubheading,
-        heading,
-        icon,
-        subheading
-    } = propsData.ThemeOptions;
+    // let {
+    //     enablePageTitleIcon,
+    //     enablePageTitleSubheading,
+    //     heading,
+    //     icon,
+    //     subheading
+    // } = props.data && props.data.ThemeOptions;
+
+    useEffect(() => {
+        async function fetchData() {
+            ThemeOptionSerivce.themeOption().then(res => {
+                res.data && setthemeoption(res.data);
+            });
+        }
+        fetchData();
+    }, []);
+
 
     return (
         <div className="app-page-title">
             <div className="page-title-wrapper">
                 <div className="page-title-heading">
                     <div
-                        className={cx("page-title-icon", { 'd-none': !enablePageTitleIcon })}>
-                        <i className={icon} />
+                        className={cx("page-title-icon", { 'd-none': !themeoption.enablePageTitleIcon })}>
+                        <i className={themeoption.icon} />
                     </div>
                     <div>
-                        {heading}
+                        {themeoption.heading}
                         <div
-                            className={cx("page-title-subheading", { 'd-none': !enablePageTitleSubheading })}>
-                            {subheading}
+                            className={cx("page-title-subheading", { 'd-none': !themeoption.enablePageTitleSubheading })}>
+                            {themeoption.subheading}
                         </div>
                     </div>
                 </div>
@@ -65,13 +72,7 @@ function PageTitle() {
     );
 }
 
-const mapStateToProps = state => ({
-    enablePageTitleIcon: state.ThemeOptions.enablePageTitleIcon,
-    enablePageTitleSubheading: state.ThemeOptions.enablePageTitleSubheading,
-});
 
-const mapDispatchToProps = dispatch => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(PageTitle);
+export default PageTitle;
 
 

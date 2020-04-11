@@ -7,23 +7,25 @@ import {
     Form, Label, Input, FormGroup, DropdownItem
 } from 'reactstrap';
 import avatar1 from '../../../assets/utils/images/avatars/1.jpg';
-import { fetchtopUseritemdata } from '../../../services/SideNavItem';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import sideNavSerivce from '../../../services/SideNavItem';
 
 
 function UserBox(props) {
 
-    useEffect (()=> {
-        const { fetchtopUseritemdata } = props;
-        fetchtopUseritemdata();
+    useEffect(() => {
+        async function fetchData() {
+            await sideNavSerivce.fetchtopUseritemdata().then(res => {
+                res.data && console.log("res.data3::", res.data); //setLogin_status(SideNavItem.status);
+            });
+        }
+        fetchData();
     }, []);
 
-    const { Status, SideNavItem } = props.data;
-    var splitdata = SideNavItem.topuserdata.text && SideNavItem.topuserdata.text.split(" | ");
-    var user_nm = splitdata && splitdata[0];
-    var role = splitdata && splitdata[1];
-    var menuItems = SideNavItem.topuserdata.menuItems && SideNavItem.topuserdata.menuItems;    
+    // const { SideNavItem } = props.data;
+    // var splitdata = SideNavItem.topuserdata.text && SideNavItem.topuserdata.text.split(" | ");
+    // var user_nm = splitdata && splitdata[0];
+    // var role = splitdata && splitdata[1];
+    // var menuItems = SideNavItem.topuserdata.menuItems && SideNavItem.topuserdata.menuItems;
     return (
         <Fragment>
             <div className="header-btn-lg pr-0">
@@ -39,10 +41,10 @@ function UserBox(props) {
                         </div>
                         <div className="widget-content-left  ml-3 header-user-info">
                             <div className="widget-heading">
-                                {user_nm}
+                                {"user_nm"}
                             </div>
                             <div className="widget-subheading">
-                                {role}
+                                {"role"}
                             </div>
                         </div>
                     </div>
@@ -52,16 +54,4 @@ function UserBox(props) {
     )
 }
 
-// export default UserBox;
-const mapStateToProps = state => {
-    return { data: state }
-}
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-    fetchtopUseritemdata: fetchtopUseritemdata,
-}, dispatch)
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(UserBox);
+export default UserBox;

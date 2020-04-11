@@ -1,9 +1,7 @@
 /* eslint-disable no-useless-constructor */
 import React, { useRef, Fragment, useState, useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import { fetchResetDetails } from '../../services/SideNavItem';
+import sideNavSerivce from '../../services/SideNavItem';
 import Notification from '../../library/notification';
 import BG_Logo from '../../assets/utils/images/BT-HighRes-Logo.5eb3d28f.png';
 import {
@@ -28,10 +26,10 @@ function ForgotPassword(props) {
     const onsubmit = async () => {
         const formValid = simpleValidator.current.allValid();
         if (formValid) {
-            const { fetchResetDetails } = props;
-            await fetchResetDetails(email);
-            let { SideNavItem } = props.data;
-            setReset_msg(SideNavItem.reset_send_data);
+            sideNavSerivce.fetchResetDetails(email).then(res => {
+                res.data && console.log("res.data2::", res.data); //setLogin_status(SideNavItem.status);
+              });
+            // setReset_msg(SideNavItem.reset_send_data);
         } else {
             simpleValidator.current.showMessages();
             forceUpdate();
@@ -92,13 +90,5 @@ function ForgotPassword(props) {
         </Fragment>
     );
 }
-const mapStateToProps = state => ({
-    data: state,
-})
-const mapDispatchToProps = dispatch => bindActionCreators({
-    fetchResetDetails: fetchResetDetails,
-}, dispatch)
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ForgotPassword);
+
+export default ForgotPassword;
